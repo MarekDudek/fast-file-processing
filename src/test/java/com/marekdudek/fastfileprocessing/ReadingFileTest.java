@@ -5,6 +5,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -90,6 +92,26 @@ public class ReadingFileTest {
                 characters += line.length();
                 lines++;
             }
+        }
+
+        out.printf("took %s to process %d lines (%d characters)%n", timer.stop(), lines, characters);
+    }
+
+    @Test
+    public void with_memory_mapped_file() throws IOException {
+
+        final Stopwatch timer = Stopwatch.createStarted();
+        long characters = 0;
+        long lines = 1;
+
+        final FileChannel channel = new RandomAccessFile(new File(PATH), "r").getChannel();
+        final MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+
+        for (int i = 0; i < buffer.limit(); i++) {
+            final byte b = buffer.get();
+            characters++;
+            if (b == (int) ('\n'))
+                lines++;
         }
 
         out.printf("took %s to process %d lines (%d characters)%n", timer.stop(), lines, characters);

@@ -8,4 +8,8 @@ took 5.868 min to process 36268228 lines (1073741824 characters)
 char stream
 took 1.082 min to process 36268228 lines (1073479831 characters)
 
+buffered reader
 took 3.206 s to process 36268229 lines (1037211603 characters)
+
+memory mapped file
+took 931.3 ms to process 36268229 lines (1073741824 characters)
