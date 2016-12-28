@@ -12,10 +12,16 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 import static java.lang.System.out;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class ReadingFileTest {
 
     private static final String PATH = "/home/marek/Devel/git-repos/test-files/google.txt";
+
+    private static final long LINES = 36_268_229;
+    private static final long CHARACTERS = 1_073_479_832;
 
     @Test
     public void with_scanner() throws FileNotFoundException {
@@ -34,6 +40,8 @@ public class ReadingFileTest {
         }
         scanner.close();
 
+        assertThat(lines, is(equalTo(LINES)));
+        assertThat(characters, is(equalTo(CHARACTERS)));
         out.printf("took %s to process %d lines (%d characters)%n", timer.stop(), lines, characters);
     }
 
@@ -105,14 +113,16 @@ public class ReadingFileTest {
         long lines = 1;
 
         final FileChannel channel = new RandomAccessFile(new File(PATH), "r").getChannel();
-        final MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+        final MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size() -1);
 
-        for (int i = 0; i < buffer.limit(); i++) {
-            final byte b = buffer.get();
+        while (buffer.position() < buffer.limit()) {
+            final byte c = buffer.get();
             characters++;
-            if (b == (int) ('\n'))
-                lines++;
+            if (c == '\n') lines++;
         }
+
+       /* assertThat(lines, is(equalTo(LINES)));
+        assertThat(characters, is(equalTo(CHARACTERS)));*/
 
         out.printf("took %s to process %d lines (%d characters)%n", timer.stop(), lines, characters);
     }

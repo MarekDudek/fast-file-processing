@@ -13,3 +13,16 @@ took 3.206 s to process 36268229 lines (1037211603 characters)
 
 memory mapped file
 took 931.3 ms to process 36268229 lines (1073741824 characters)
+
+
+1.073.741.824
+
+ .536.870.912
+
+ Expected: is  1.073.741.825
+      but: was 1.073.479.832
+
+
+      Expected: is  1073741825
+           but: was 1037211603
+
