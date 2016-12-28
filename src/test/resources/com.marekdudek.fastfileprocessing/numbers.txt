@@ -1,0 +1,11 @@
+
+scanner
+took 14.38 s to process   36268229 lines (1037211603 characters)
+
+byte stream
+took 5.868 min to process 36268228 lines (1073741824 characters)
+
+char stream
+took 1.082 min to process 36268228 lines (1073479831 characters)
+
+took 3.206 s to process 36268229 lines (1037211603 characters)
